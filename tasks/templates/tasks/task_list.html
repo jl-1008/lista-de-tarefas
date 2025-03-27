@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Tarefas</title>  <!-- Título da página -->
+</head>
+<body>
+    <h1>Minhas Tarefas</h1>  <!-- Cabeçalho -->
+    <ul>  <!-- Lista não ordenada -->
+    {% for task in tasks %}  <!-- Loop pra cada tarefa -->
+        <li>  <!-- Item da lista -->
+            {{ task.title }} - 
+            {% if task.completed %}Concluída{% else %}Pendente{% endif %} 
+            (Criada em: {{ task.created }})
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
