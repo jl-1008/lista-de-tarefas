@@ -5,5 +5,5 @@ from .models import Task
 
 # Função que lista todas as tarefas e manda para o template
 def task_list(request):
-    tasks = Task.object.all() #Busca todas as tarefas no banco de dados
+    tasks = Task.object.all() #Pega todas as tarefas no banco de dados
     return render(request, 'tasks/task_list.html' , {'tasks': tasks}) # Renderiza o template com as tarefas
