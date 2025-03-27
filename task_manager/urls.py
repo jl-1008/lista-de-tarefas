@@ -14,9 +14,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+from django.contrib import admin 
+from django.urls import path, include # Include conecta URLs de outros apps
 
+
+# Rotas principais do projeto
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls), # Rota para o admin
+    path('', include('tasks.urls')), # Raiz vai para o app tasks    
 ]
