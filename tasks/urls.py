@@ -8,5 +8,5 @@ urlpatterns = [
     path('task/new/', views.task_new, name='task_new'), # Rota para criar uma nova tarefa
     path('task/<int:pk>/edit/', views.task_edit, name='task_edit'), # Rota para editar uma tarefa
     path('task/<int:pk>/delete/', views.task_delete, name='task_delete'), # Rota para deletar uma tarefa
-     path('task/<int:pk>/complete/', views.task_complete, name='task_complete'), # Rota para completar uma tarefa
+    path('task/<int:pk>/complete/', views.task_complete, name='task_complete'), # Rota para completar uma tarefa
 ]
