@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404  # Adicionadas as importações necessárias
 from .models import Task
 
+
+def task_detail(request, pk): # Função que mostra os detalhes de uma tarefa
+    task = get_object_or_404(Task, pk=pk)  # Pega a tarefa pelo id
+    return render(request, 'tasks/task_detail.html', {'task': task})  # Renderiza o template com os detalhes da tarefa
+
+
+
 # Função que lista todas as tarefas e manda para o template
 def task_list(request):
     tasks = Task.objects.all()  # Pega todas as tarefas no banco de dados
     return render(request, 'tasks/task_list.html', {'tasks': tasks})  # Renderiza o template com as tarefas
 
-def task_new(request):
+def task_new(request): #criando uma nova tarefa
     if request.method == 'POST':  # Se o método for POST
         title = request.POST.get('title')  # Pega o título do formulário
         if title:
