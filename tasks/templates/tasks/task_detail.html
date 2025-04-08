@@ -1,6 +1,15 @@
-<h1>{{ task.title }}</h1>
-<p>Status: {% if task.completed %}Concluída{% else %}Pendente{% endif %}</p>
-<p>Criada em: {{ task.created }}</p>
-<a href="{% url 'task_list' %}">Voltar para a lista</a>
-
-<!-- Esse template vai mostrar o título,status e data de criaçao da tarefa-->
+<!-- task_detail.html: Exibe os detalhes de uma tarefa -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Tarefa</title>
+</head>
+<body>
+    <h1>{{ task.title }}</h1>
+    <p>{{ task.description }}</p>
+    <p>Concluída: {{ task.completed }}</p>
+    <!-- Link para voltar à lista -->
+    <a href="{% url 'task_list' %}">Voltar para a lista</a>
+</body>
+</html>

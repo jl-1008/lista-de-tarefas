@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Deletar Tarefa</title>
+</head>
+<body>
+    <h1>Deletar Tarefa</h1>
+    <p>Você tem certeza que deseja deletar a tarefa "{{ task.title }}"?</p>
+    <form method="post" action=">
+        {% url 'task_delete' task.id %}"> <!--O método post é usado para enviar dados ao servidor-->
+        {% csrf_token %}
+        <button type="submit">Deletar</button>
+    </form>
+    <a href="{% url 'task_list' %}">Cancelar e voltar</a>
+</body>
+</html>
+<!-- Esse template vai mostrar um formulário para deletar a tarefa, com um botão de confirmação e um link para voltar à lista de tarefas. -->

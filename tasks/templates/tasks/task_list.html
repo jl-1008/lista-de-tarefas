@@ -1,18 +1,26 @@
+<!-- task_list.html: Lista todas as tarefas do projeto -->
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Lista de Tarefas</title>  <!-- Título da página -->
+    <meta charset="UTF-8">
+    <title>Lista de Tarefas</title>
 </head>
 <body>
-    <h1>Minhas Tarefas</h1>  <!-- Cabeçalho -->
-    <ul>  <!-- Lista não ordenada -->
-    {% for task in tasks %}  <!-- Loop pra cada tarefa -->
-        <li>  <!-- Item da lista -->
-            {{ task.title }} - 
-            {% if task.completed %}Concluída{% else %}Pendente{% endif %} 
-            (Criada em: {{ task.created }})
-        </li>
-    {% endfor %}
+    <h1>Minhas Tarefas</h1>
+    <!-- Link para criar uma nova tarefa -->
+    <a href="{% url 'task_new' %}">Nova Tarefa</a>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task.title }} - 
+                <!-- Link para editar a tarefa, passando o ID como parâmetro -->
+                <a href="{% url 'task_edit' task.id %}">Editar</a>
+                <!-- Link para deletar a tarefa -->
+                <a href="{% url 'task_delete' task.id %}">Deletar</a>
+                <!-- Link para ver os detalhes da tarefa -->
+                <a href="{% url 'task_detail' task.id %}">Detalhes</a>
+            </li>
+        {% endfor %}
     </ul>
 </body>
 </html>

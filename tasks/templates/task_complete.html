@@ -1,0 +1,20 @@
+<!-- tasks/templates/tasks/task_complete.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Completar Tarefa</title>
+</head>
+<body>
+    <h1>Completar Tarefa</h1>
+    <!-- Mensagem de confirmação -->
+    <p>Tem certeza que deseja marcar "{{ task.title }}" como concluída?</p>
+    <!-- Formulário para confirmar -->
+    <form method="post" action="{% url 'task_complete' task.id %}">
+        {% csrf_token %}
+        <button type="submit">Sim, completar</button>
+    </form>
+    <!-- Link para cancelar -->
+    <a href="{% url 'task_list' %}">Cancelar</a>
+</body>
+</html>
