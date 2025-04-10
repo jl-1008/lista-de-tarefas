@@ -14,4 +14,5 @@ urlpatterns = [
     path('login/', views.user_login, name='user_login'), # Rota para login
     path('logout/', views.user_logout, name='user_logout'), # Rota para logout
     path('register/', views.register, name='register'),
+    path('login/', views.user_login, name='login')
 ]
