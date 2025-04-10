@@ -1,11 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404  # Adicionadas as importações necessárias
 from .models import Task
-from .forms import TaskForm
+from .forms import TaskForm, UserRegistrationForm 
 
 # Adicione estas importações para autenticação
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+# View de registro (não precisa de login_required, pois é pública)
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('login')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'tasks/register.html', {'form': form})
+
 
 # Views de login
 def user_login(request):  # Função de login
