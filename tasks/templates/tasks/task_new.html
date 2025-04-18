@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Criar Nova Tarefa</h1>
+    <h1>Nova Tarefa</h1>
     <!-- Formulário para enviar os dados da nova tarefa -->
     <form method="post" action="{% url 'task_new' %}">
         {% csrf_token %}

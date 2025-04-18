@@ -1,110 +1,96 @@
-from django.shortcuts import render, redirect, get_object_or_404  # Adicionadas as importações necessárias
-from .models import Task
-from .forms import TaskForm, UserRegistrationForm 
-
-# Adicione estas importações para autenticação
+# tasks/views.py
+# Importações necessárias para views, modelos, formulários e autenticação
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from .models import Task
+from .forms import TaskForm, UserRegistrationForm
 
-# View de registro (não precisa de login_required, pois é pública)
+# View para registro de novos usuários
 def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            return redirect('login')
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'tasks/register.html', {'form': form})
+    if request.method == 'POST':  # Se o formulário foi enviado
+        form = UserRegistrationForm(request.POST)  # Cria formulário com dados
+        if form.is_valid():  # Verifica se é válido
+            user = form.save()  # Salva usuário (senha já criptografada no forms.py)
+            return redirect('login')  # Redireciona para login
+    else:  # Método GET
+        form = UserRegistrationForm()  # Cria formulário vazio
+    return render(request, 'tasks/register.html', {'form': form})  # Renderiza template
 
+# View para login de usuários
+def user_login(request):
+    if request.method == 'POST':  # Se o formulário foi enviado
+        form = AuthenticationForm(request, data=request.POST)  # Cria formulário com dados
+        if form.is_valid():  # Verifica se é válido
+            user = form.get_user()  # Obtém usuário autenticado
+            login(request, user)  # Faz login
+            return redirect('task_list')  # Redireciona para lista de tarefas
+    else:  # Método GET
+        form = AuthenticationForm()  # Cria formulário vazio
+    return render(request, 'tasks/login.html', {'form': form})  # Renderiza template
 
-# Views de login
-def user_login(request):  # Função de login
-    if request.method == 'POST':  # Se o método for POST
-        form = AuthenticationForm(request, data=request.POST)  # Cria o formulário de autenticação
-        if form.is_valid():  # Verifica se o formulário é válido
-            user = form.get_user()  # Pega o usuário do formulário
-            login(request, user)  # Faz o login do usuário
-            return redirect('task_list')  # Redireciona para a lista de tarefas
-    else:  # Se o método for GET
-        form = AuthenticationForm()  # Cria um novo formulário de autenticação
-    return render(request, 'tasks/login.html', {'form': form})  # Renderiza o template de login    
-
-# View de logout
+# View para logout
 def user_logout(request):
-    logout(request)
-    return redirect('task_list')
+    logout(request)  # Encerra sessão do usuário
+    return redirect('task_list')  # Redireciona para lista de tarefas
 
-
-
-@login_required
-def task_detail(request, pk): # Função que mostra os detalhes de uma tarefa
-    task = get_object_or_404(Task, pk=pk)  # Pega a tarefa pelo id
-    return render(request, 'tasks/task_detail.html', {'task': task})  # Renderiza o template com os detalhes da tarefa
-
-
-
-# Função que lista todas as tarefas e manda para o template
-@login_required
+# View para listar tarefas com filtro
+@login_required  # Requer login
 def task_list(request):
-    tasks = Task.objects.all()  # Pega todas as tarefas no banco de dados
-    return render(request, 'tasks/task_list.html', {'tasks': tasks})  # Renderiza o template com as tarefas
+    filter_type = request.GET.get('filter', 'all')  # Pega parâmetro de filtro da URL
+    if filter_type == 'completed':  # Filtra tarefas concluídas
+        tasks = Task.objects.filter(completed=True)
+    elif filter_type == 'pending':  # Filtra tarefas pendentes
+        tasks = Task.objects.filter(completed=False)
+    else:  # Mostra todas as tarefas
+        tasks = Task.objects.all()
+    return render(request, 'tasks/task_list.html', {'tasks': tasks, 'filter_type': filter_type})  # Renderiza template
 
+# View para detalhes de uma tarefa
 @login_required
-def task_new(request): #criando uma nova tarefa
-    if request.method == 'POST':  # Se o método for POST
-        form = TaskForm(request.POST)  # Cria o formulário com os dados enviados
-        if form.is_valid():  # Verifica se os dados são válidos
-            form.save()  # Salva a tarefa no banco de dados
-            return redirect ('task_list')  # Renderiza o template do formulário de nova tarefa
-    else:  
-        form = TaskForm()  # Cria um novo formulário vazio GET
-    return render(request, 'tasks/task_new.html', {'form': form})# Passa o formulário para o template
+def task_detail(request, pk):
+    task = get_object_or_404(Task, pk=pk)  # Obtém tarefa pelo ID ou retorna 404
+    return render(request, 'tasks/task_detail.html', {'task': task})  # Renderiza template
 
+# View para criar nova tarefa
+@login_required
+def task_new(request):
+    if request.method == 'POST':  # Se o formulário foi enviado
+        form = TaskForm(request.POST)  # Cria formulário com dados
+        if form.is_valid():  # Verifica se é válido
+            form.save()  # Salva tarefa no banco
+            return redirect('task_list')  # Redireciona para lista
+    else:  # Método GET
+        form = TaskForm()  # Cria formulário vazio
+    return render(request, 'tasks/task_new.html', {'form': form})  # Renderiza template
 
+# View para editar tarefa
 @login_required
 def task_edit(request, pk):
-    task = get_object_or_404(Task, pk=pk)  # Pega a tarefa pelo id
-    if request.method == "POST":
-        title = request.POST.get('title')
-        completed = request.POST.get('completed') == 'on'  # Verifica se a tarefa foi completada
-        if title:
-            task.title = title
-            task.completed = completed
-            task.save()
-            return redirect('task_list')
-    return render(request, 'tasks/task_edit.html', {'task': task})  # Renderiza o template de edição de tarefa
+    task = get_object_or_404(Task, pk=pk)  # Obtém tarefa pelo ID
+    if request.method == 'POST':  # Se o formulário foi enviado
+        form = TaskForm(request.POST, instance=task)  # Cria formulário com dados e tarefa existente
+        if form.is_valid():  # Verifica se é válido
+            form.save()  # Salva alterações
+            return redirect('task_list')  # Redireciona para lista
+    else:  # Método GET
+        form = TaskForm(instance=task)  # Cria formulário com dados da tarefa
+    return render(request, 'tasks/task_edit.html', {'form': form, 'task': task})  # Renderiza template
 
+# View para deletar tarefa
 @login_required
 def task_delete(request, pk):
-    task = get_object_or_404(Task, pk=pk)  # Pega a tarefa pelo id
-    if request.method == "POST":
-        task.delete()  # Deleta a tarefa
-        return redirect('task_list')  # Redireciona para a lista de tarefas
-    return render(request, 'tasks/task_delete.html', {'task': task})  # Renderiza o template de confirmação de deleção
+    task = get_object_or_404(Task, pk=pk)  # Obtém tarefa pelo ID
+    if request.method == 'POST':  # Se confirmado
+        task.delete()  # Deleta tarefa
+        return redirect('task_list')  # Redireciona para lista
+    return render(request, 'tasks/task_delete.html', {'task': task})  # Renderiza template de confirmação
 
+# View para marcar tarefa como concluída
 @login_required
 def task_complete(request, pk):
-    task = get_object_or_404(Task, pk=pk)  # Pega a tarefa pelo id
-    if request.method == "POST": # Marca a tarefa como concluída
-       task.completed = True
-       task.save()  # Marca a tarefa como concluída
-       return redirect('task_list')  # Redireciona para a lista de tarefas  
-    return render(request, 'tasks/task_complete.html', {'task': task})  # Renderiza o template de confirmação de conclusão
-# Adicionei a função task_complete para marcar uma tarefa como concluída 
-
-@login_required
-def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])  # Criptografa a senha
-            user.save()
-            return redirect('login')
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'tasks/register.html', {'form': form})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    task = get_object_or_404(Task, pk=pk)  # Obtém tarefa pelo ID
+    task.completed = True  # Marca como concluída
+    task.save()  # Salva alteração
+    return redirect('task_list')  # Redireciona para lista

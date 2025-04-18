@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar Tarefa</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Inclui CSS -->
 </head>
 <body>
-    <h1>Editar Tarefa</h1>
-    <form method="post" action="{% url 'task_edit' task.id %}">
+    <h1>Editar Tarefa</h1> <!-- Título -->
+    <form method="post"> <!-- Formulário para editar tarefa -->
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Salvar</button>
+        {{ form.as_p }} <!-- Renderiza campos: title, description, due_date, completed -->
+        <button type="submit">Salvar</button> <!-- Botão de envio -->
     </form>
-    <a href="{% url 'task_list' %}">Voltar para a lista</a>
+    <a href="{% url 'task_list' %}">Voltar para a lista</a> <!-- Link para lista -->
 </body>
 </html>

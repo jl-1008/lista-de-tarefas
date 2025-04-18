@@ -10,13 +10,13 @@
 <body>
     <h1>Completar Tarefa</h1>
     <!-- Mensagem de confirmação -->
-    <p>Tem certeza que deseja marcar "{{ task.title }}" como concluída?</p>
+    <p>Confirmar conclusão de "{{ task.title }}?"</p>
     <!-- Formulário para confirmar -->
-    <form method="post" action="{% url 'task_complete' task.id %}">
+    <form method="post"> <!-- Formulário para compatibilidade, mas link usa GET -->
         {% csrf_token %}
-        <button type="submit">Sim, completar</button>
+        <button type="submit">Confirmar</button>
     </form>
-    <!-- Link para cancelar -->
-    <a href="{% url 'task_list' %}">Cancelar</a>
+    <a href="{% url 'task_complete' task.id %}">Completar agora</a>  <!-- Link para completar -->
+    <a href="{% url 'task_list' %}">Voltar</a>  <!-- Link para lista -->
 </body>
 </html>
