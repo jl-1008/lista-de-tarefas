@@ -10,6 +10,10 @@ class TaskForm(forms.ModelForm):
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(
+        label = "Nome de Usuário",  # Texto que aparece no campo
+        help_text= "",              # Remove a mensagem padrão
+    )
     class Meta:
         model = User
         fields = ['username', 'email', 'password']        

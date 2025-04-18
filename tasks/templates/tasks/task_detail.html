@@ -1,9 +1,11 @@
 <!-- task_detail.html: Exibe os detalhes de uma tarefa -->
+ {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Detalhes da Tarefa</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <h1>{{ task.title }}</h1>
