@@ -1,34 +1,47 @@
-<!-- task_list.html: Lista todas as tarefas do projeto -->
-{% load static %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Lista de Tarefas</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Inclui CSS -->
 </head>
 <body>
-    <h1>Minhas Tarefas</h1>
-    <!-- Link para criar uma nova tarefa -->
-    <a href="{% url 'task_new' %}">Nova Tarefa</a>
-    <ul>
-        {% for task in tasks %}
-            <li>
-                {{ task.title }} - 
-                <!-- Link para editar a tarefa, passando o ID como parâmetro -->
-                <a href="{% url 'task_edit' task.id %}">Editar</a>
-                <!-- Link para deletar a tarefa -->
-                <a href="{% url 'task_delete' task.id %}">Deletar</a>
-                <!-- Link para ver os detalhes da tarefa -->
-                <a href="{% url 'task_detail' task.id %}">Detalhes</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <!-- Mostra se o usuário está logado ou não -->
-    {% if user.is_authenticated %}
-        <p>Bem-vindo, {{ user.username }}! <a href="{% url 'logout' %}">Sair</a></p>
-    {% else %}
-        <p><a href="{% url 'login' %}">Entrar</a></p>
-    {% endif %}
+    <div class="container">  <!-- Contêiner para centralizar conteúdo -->
+        {% if user.is_authenticated %}  <!-- Verifica se usuário está logado -->
+            <p class="welcome">Bem-vindo, {{ user.username }}! <a href="{% url 'logout' %}">Sair</a></p>  <!-- Mensagem de boas-vindas -->
+        {% else %}
+            <p><a href="{% url 'login' %}">Entrar</a></p>  <!-- Link para login -->
+        {% endif %}
+        <h1>Minhas Tarefas</h1>  <!-- Título -->
+        <a href="{% url 'task_new' %}" class="btn">Nova Tarefa</a>  <!-- Botão para nova tarefa -->
+        <!-- Filtros -->
+        <div class="filters">
+            <a href="?filter=all" class="filter-link {% if filter_type == 'all' %}active{% endif %}">Todas</a> |
+            <a href="?filter=completed" class="filter-link {% if filter_type == 'completed' %}active{% endif %}">Concluídas</a> |
+            <a href="?filter=pending" class="filter-link {% if filter_type == 'pending' %}active{% endif %}">Pendentes</a>
+        </div>
+        <ul class="task-list">  <!-- Lista de tarefas -->
+            {% for task in tasks %}
+                <li class="task-item">
+                    <span class="task-title">{{ task.title }}</span>  <!-- Título da tarefa -->
+                    {% if task.description %} - {{ task.description|truncatewords:10 }}{% endif %}  <!-- Descrição resumida -->
+                    {% if task.due_date %} ({{ task.due_date|date:"d/m/Y" }}) {% endif %}  <!-- Data de vencimento -->
+                    <div class="task-actions">  <!-- Ações da tarefa -->
+                        {% if not task.completed %}
+                            <a href="{% url 'task_complete' task.id %}" class="btn btn-small btn-complete">Completar</a>
+                        {% else %}
+                            <span class="completed">Concluído</span>
+                        {% endif %}
+                        <a href="{% url 'task_detail' task.id %}" class="btn btn-small btn-detail">Detalhes</a>
+                        <a href="{% url 'task_edit' task.id %}" class="btn btn-small btn-edit">Editar</a>
+                        <a href="{% url 'task_delete' task.id %}" class="btn btn-small btn-delete">Deletar</a>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="task-item">Nenhuma tarefa encontrada.</li>  <!-- Mensagem se não houver tarefas -->
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

@@ -1,126 +1,87 @@
-
 /* tasks/static/css/style.css */
-/* Reseta margens e paddings padrão */
+/* Reseta margens e paddings */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* Estiliza o corpo */
+body { font-family: Arial, sans-serif; background-color: #f0f2f5; padding: 20px; }
+
+/* Contêiner principal */
+.container {
+    max-width: 800px;  /* Largura máxima */
+    margin: 0 auto;  /* Centraliza */
 }
 
-/* Estiliza o corpo da página */
-body {
-   font-family: 'Arial', sans-serif;
-   background-color: #f0f2f5;
-   color: #333;
-   line-height: 1.6;
-   padding: 20px; 
-}
-
-/* Estiliza os títulos principais */
-h1 {
-   text-align: center;
-   color: #1a73e8;
-   margin-bottom: 20px;
-}
+/* Estiliza títulos */
+h1 { text-align: center; color: #1a73e8; margin-bottom: 20px; }
 
 /* Estiliza links */
+a { color: #1a73e8; text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-a {
-    color: #1a73e8;
-    text-decoration: none;
-    font-weight: bold;
-}
+/* Estiliza mensagem de boas-vindas */
+.welcome { text-align: center; margin-bottom: 20px; font-size: 1.1em; }
 
-a:hover {
-    text-decoration: underline;
-}
-
-/* Centraliza parágrafos */
-
-p { 
+/* Estiliza botões */
+.btn {
+    display: inline-block;  /* Comportamento de botão */
+    padding: 8px 16px;  /* Espaçamento interno */
+    background-color: #1a73e8;  /* Azul */
+    color: #fff;  /* Texto branco */
+    border-radius: 4px;  /* Bordas arredondadas */
+    font-weight: bold;  /* Negrito */
     text-align: center;
-    margin: 10px 0;
 }
-
-/* Estiliza a lista de tarefas */
-
-ul {
-    list-style: none;
-    max-width: 600px;
-    margin: 20px auto;
+.btn:hover {
+    background-color: #1557b0;  /* Azul escuro ao passar o mouse */
 }
+.btn-small { padding: 5px 10px; font-size: 0.9em; }  /* Botões menores */
 
-/* Estiliza cada item da lista */
+/* Botões específicos */
+.btn-complete { background-color: #28a745; }  /* Verde para completar */
+.btn-complete:hover { background-color: #218838; }
+.btn-edit { background-color: #ffc107; }  /* Amarelo para editar */
+.btn-edit:hover { background-color: #e0a800; }
+.btn-delete { background-color: #dc3545; }  /* Vermelho para deletar */
+.btn-delete:hover { background-color: #c82333; }
+.btn-detail { background-color: #6c757d; }  /* Cinza para detalhes */
+.btn-detail:hover { background-color: #5a6268; }
 
-li {
-    background: #fff;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius:  8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Estiliza filtros */
+.filters { text-align: center; margin-bottom: 20px; }
+.filter-link { margin: 0 10px; font-weight: bold; }
+.filter-link.active { color: #1557b0; text-decoration: underline; }  /* Filtro ativo */
+
+/* Estiliza lista de tarefas */
+.task-list { list-style: none; max-width: 600px; margin: 20px auto; }
+.task-item {
+    background: #fff;  /* Fundo branco */
+    padding: 15px;  /* Espaçamento interno */
+    margin-bottom: 10px;  /* Espaço entre itens */
+    border-radius: 8px;  /* Bordas arredondadas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Sombra */
+    display: flex;  /* Alinha título e ações */
+    justify-content: space-between;  /* Espaço entre título e ações */
+    align-items: center;  /* Centraliza verticalmente */
 }
-li a {
-    margin-left: 10px;
-    font-size: 0.9em;  /* Links menores dentro da lista */
-}
+.task-title { font-weight: bold; }  /* Título da tarefa em negrito */
+.completed { color: #28a745; font-weight: bold; }  /* Texto de concluído */
+
+/* Estiliza ações da tarefa */
+.task-actions { display: flex; gap: 10px; }  /* Espaço entre botões */
 
 /* Estiliza formulários */
 form {
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 400px; margin: 20px auto; background: #fff;
+    padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-form p {
-    margin-bottom: 15px;  /* Espaço entre campos do formulário */
+form p { margin-bottom: 15px; }
+form label { display: block; font-weight: bold; margin-bottom: 5px; text-align: left; }
+form input, form textarea {
+    display: block; width: 100%; padding: 10px;
+    border: 1px solid #ccc; border-radius: 4px; font-size: 1em;
 }
-
-form label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-align: left;
-
-}
-
-form input {
-    width: 100%;
-    padding: 20px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-}
-/* Estiliza inputs e botões */
 button {
-    width: 100%;
-    padding: 20px;
-    background-color: #1a73e8;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
+    display: block; width: 100%; padding: 10px; background-color: #1a73e8;
+    color: #fff; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;
 }
-
-button:hover {
-    background-color: #1557b0; /* Cor mais escura ao passar o mouse */
-}
-
-/* Estiliza mensagem de boas-vindas */
-
-.welcome {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.1em;
-}
-
-
-   
+button:hover { background-color: #1557b0; }
