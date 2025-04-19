@@ -12,7 +12,7 @@ urlpatterns = [
     path('task/<int:pk>/delete/', views.task_delete, name='task_delete'), # Rota para deletar uma tarefa
     path('task/<int:pk>/complete/', views.task_complete, name='task_complete'), # Rota para completar uma tarefa
     path('login/', views.user_login, name='user_login'), # Rota para login
-    path('logout/', views.user_logout, name='user_logout'), # Rota para logout
+    path('logout/', views.user_logout, name='logout'), # Rota para logout
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login')
 ]
