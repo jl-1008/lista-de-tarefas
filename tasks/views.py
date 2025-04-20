@@ -39,12 +39,13 @@ def user_logout(request):
 @login_required  # Requer login
 def task_list(request):
     filter_type = request.GET.get('filter', 'all')  # Pega parâmetro de filtro da URL
+    tasks = Task.objects.filter(user=request.user)  # Filtra tarefas do usuário logado
     if filter_type == 'completed':  # Filtra tarefas concluídas
-        tasks = Task.objects.filter(completed=True)
-    elif filter_type == 'pending':  # Filtra tarefas pendentes
-        tasks = Task.objects.filter(completed=False)
-    else:  # Mostra todas as tarefas
-        tasks = Task.objects.all()
+        tasks = tasks.filter(completed=True) # Filtra tarefas concluídas
+    elif filter_type == 'pending':  
+        tasks = tasks.filter(completed=False) # Filtra tarefas pendentes
+ #   else: Mostra todas as tarefas
+ #      tasks = Task.objects.all()
     return render(request, 'tasks/task_list.html', {'tasks': tasks, 'filter_type': filter_type})  # Renderiza template
 
 # View para detalhes de uma tarefa
@@ -59,6 +60,9 @@ def task_new(request):
     if request.method == 'POST':  # Se o formulário foi enviado
         form = TaskForm(request.POST)  # Cria formulário com dados
         if form.is_valid():  # Verifica se é válido
+            task = form.save(commit=False)  # Cria tarefa sem salvar no banco
+            task.user = request.user  # Associa tarefa ao usuário logado
+            task.save()  # Salva tarefa no banco
             form.save()  # Salva tarefa no banco
             return redirect('task_list')  # Redireciona para lista
     else:  # Método GET

@@ -2,6 +2,7 @@ from django.db import models
 
 class Task(models.Model):
     
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200) # Campo pra título da tarefa, até 200 caracteres
     description = models.TextField(blank=True)  # Descrição opcional
     due_date = models.DateField(null=True, blank=True)  # Data de vencimento opcional

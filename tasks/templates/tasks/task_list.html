@@ -26,8 +26,8 @@
         <ul class="task-list">  <!-- Lista de tarefas -->
             {% for task in tasks %}
                 <li class="task-item">
-                    <span class="task-title">{{ task.title }}</span>  <!-- Título da tarefa -->
-                    {% if task.description %} - {{ task.description|truncatewords:10 }}{% endif %}  <!-- Descrição resumida -->
+                    <span class="task-title">Título: {{ task.title }}</span>  <!-- Título da tarefa -->
+                    {% if task.description %} - Descrição: {{ task.description|truncatewords:10 }}{% endif %}  <!-- Descrição resumida -->
                     {% if task.due_date %} ({{ task.due_date|date:"d/m/Y" }}) {% endif %}  <!-- Data de vencimento -->
                     <div class="task-actions">  <!-- Ações da tarefa -->
                         {% if not task.completed %}

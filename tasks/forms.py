@@ -23,6 +23,12 @@ class UserRegistrationForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'due_date', 'completed']  # Inclua outros campos do seu modelo, se houver
+        fields = ['title', 'description', 'due_date', 'completed'] 
+        labels = {
+            'title': 'Título',  # Rótulo do campo título
+            'description': 'Descrição',  # Rótulo do campo descrição
+            'due_date': 'Data de Vencimento',  # Rótulo do campo data de vencimento
+            'completed': 'Concluída'  # Rótulo do campo concluída
+        } # Inclua outros campos do seu modelo, se houver
 
     
