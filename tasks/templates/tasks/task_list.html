@@ -28,7 +28,8 @@
                 <li class="task-item">
                     <span class="task-title">Título: {{ task.title }}</span>  <!-- Título da tarefa -->
                     {% if task.description %} - Descrição: {{ task.description|truncatewords:10 }}{% endif %}  <!-- Descrição resumida -->
-                    {% if task.due_date %} ({{ task.due_date|date:"d/m/Y" }}) {% endif %}  <!-- Data de vencimento -->
+                    {% if task.due_date %} (Data de Vencimento: {{ task.due_date|date:"d/m/Y" }}) {% endif %}  <!-- Data de vencimento -->
+                    {% if task.completed %} - Status: Concluída {% else %} - Status: Pendente {% endif %}  <!-- Status da tarefa -->
                     <div class="task-actions">  <!-- Ações da tarefa -->
                         {% if not task.completed %}
                             <a href="{% url 'task_complete' task.id %}" class="btn btn-small btn-complete">Completar</a>
