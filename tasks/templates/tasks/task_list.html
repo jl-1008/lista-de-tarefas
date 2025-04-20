@@ -9,7 +9,8 @@
 <body>
     <div class="container">  <!-- Contêiner para centralizar conteúdo -->
         {% if user.is_authenticated %}  <!-- Verifica se usuário está logado -->
-            <p class="welcome">Bem-vindo, {{ user.username }}! <a href="{% url 'logout' %}">Sair</a></p>  <!-- Mensagem de boas-vindas -->
+            <p class="welcome">Bem-vindo, {{ user.username }}!</p>
+            <a href="{% url 'logout' %}" class="logout-btn">Sair</a>  <!-- Mensagem de boas-vindas -->
         {% else %}
             <p><a href="{% url 'login' %}">Entrar</a></p>  <!-- Link para login -->
         {% endif %}
