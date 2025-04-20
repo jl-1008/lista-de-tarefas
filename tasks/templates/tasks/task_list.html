@@ -14,12 +14,13 @@
             <p><a href="{% url 'login' %}">Entrar</a></p>  <!-- Link para login -->
         {% endif %}
         <h1>Minhas Tarefas</h1>  <!-- Título -->
-        <a href="{% url 'task_new' %}" class="btn">Nova Tarefa</a>  <!-- Botão para nova tarefa -->
+       
         <!-- Filtros -->
         <div class="filters">
             <a href="?filter=all" class="filter-link {% if filter_type == 'all' %}active{% endif %}">Todas</a> |
             <a href="?filter=completed" class="filter-link {% if filter_type == 'completed' %}active{% endif %}">Concluídas</a> |
             <a href="?filter=pending" class="filter-link {% if filter_type == 'pending' %}active{% endif %}">Pendentes</a>
+            <a href="{% url 'task_new' %}" class="btn">Nova Tarefa</a>  <!-- Botão para nova tarefa -->
         </div>
         <ul class="task-list">  <!-- Lista de tarefas -->
             {% for task in tasks %}

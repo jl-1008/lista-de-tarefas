@@ -1,21 +1,20 @@
-<!-- task_new.html: Formulário para criar uma nova tarefa -->
-{% load static %} 
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Nova Tarefa</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Inclui CSS -->
 </head>
 <body>
-    <h1>Nova Tarefa</h1>
-    <!-- Formulário para enviar os dados da nova tarefa -->
-    <form method="post" action="{% url 'task_new' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Salvar</button>
-    </form>
-    <!-- Link para voltar à lista de tarefas -->
-    <a href="{% url 'task_list' %}">Voltar para a lista</a>
+    <div class="container">  <!-- Contêiner para centralizar -->
+        <h1>Nova Tarefa</h1>  <!-- Título -->
+        <form method="post">  <!-- Formulário para nova tarefa -->
+            {% csrf_token %}  <!-- Token de segurança -->
+            {{ form.as_p }}  <!-- Renderiza campos: title, description, due_date, completed -->
+            <button type="submit">Salvar</button>  <!-- Botão de envio -->
+        </form>
+        <a href="{% url 'task_list' %}">Voltar</a>  <!-- Link para lista -->
+    </div>
 </body>
 </html>

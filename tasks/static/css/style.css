@@ -3,7 +3,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* Estiliza o corpo */
-body { font-family: Arial, sans-serif; background-color: #f0f2f5; padding: 20px; }
+body { font-family: Arial, sans-serif; background-color: #1e3a8a; padding: 20px; }
 
 /* Contêiner principal */
 .container {
@@ -19,7 +19,12 @@ a { color: #1a73e8; text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* Estiliza mensagem de boas-vindas */
-.welcome { text-align: center; margin-bottom: 20px; font-size: 1.1em; }
+.welcome { 
+        text-align: right; 
+        margin-bottom: 20px; 
+        font-size: 1.1em; 
+        padding-right: 20px;
+ }
 
 /* Estiliza botões */
 .btn {
@@ -47,9 +52,23 @@ a:hover { text-decoration: underline; }
 .btn-detail:hover { background-color: #5a6268; }
 
 /* Estiliza filtros */
-.filters { text-align: center; margin-bottom: 20px; }
+.filters { text-align: center; margin-bottom: 20px;display: flex;justify-content: center; gap: 10px; }
 .filter-link { margin: 0 10px; font-weight: bold; }
 .filter-link.active { color: #1557b0; text-decoration: underline; }  /* Filtro ativo */
+
+/*Estiliza botão Nova Tarefa como filto*/
+.btn-filter {
+    padding: 5px 10px;
+    background-color: #1a73e8;  /* Azul */
+    color: #fff;  /* Texto branco */
+    border-radius: 4px;  /* Bordas arredondadas */
+    font-weight: bold;  /* Negrito */
+    text-decoration: none;  /* Remove sublinhado */
+}
+
+.btn-filter:hover {
+    background-color: #1557b0;  /* Azul escuro ao passar o mouse */
+}
 
 /* Estiliza lista de tarefas */
 .task-list { list-style: none; max-width: 600px; margin: 20px auto; }

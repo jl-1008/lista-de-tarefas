@@ -1,19 +1,20 @@
-
-<!-- tasks/templates/tasks/login.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Inclui CSS -->
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Entrar</button>
-    </form>
+    <div class="container">  <!-- Contêiner para centralizar -->
+        <h1>Entrar</h1>  <!-- Título -->
+        <form method="post">  <!-- Formulário de login -->
+            {% csrf_token %}  <!-- Token de segurança -->
+            {{ form.as_p }}  <!-- Renderiza campos: username, password -->
+            <button type="submit">Entrar</button>  <!-- Botão de envio -->
+        </form>
+        <p><a href="{% url 'register' %}">Não tem conta? Registre-se</a></p>  <!-- Link para registro -->
+    </div>
 </body>
 </html>
