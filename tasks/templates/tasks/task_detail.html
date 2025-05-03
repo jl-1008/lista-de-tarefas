@@ -5,13 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalhes da Tarefa</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Inclui CSS -->
 </head>
 <body>
-    <h1>{{ task.title }}</h1>
-    <p>{{ task.description }}</p>
-    <p>Concluída: {{ task.completed }}</p>
+    <div class="container">  <!-- Contêiner centralizado -->
+    <h1>Detalhes da Tarefa</h1>
+    <div class="task-detail">
+        <p><strong>Título:</strong> {{ task.title }}</p>
+        <p><strong>Descrição:</strong> {{ task.description|default:"Nenhuma descrição" }}</p>
+        <p><strong>Data de Vencimento:</strong> {{ task.due_date|date:"d/m/Y"|default:"Não definida" }}</p>
+        <p><strong>Concluída:</strong> {% if task.completed %}Sim{% else %}Não{% endif %}</p>
+    </div>
     <!-- Link para voltar à lista -->
-    <a href="{% url 'task_list' %}">Voltar para a lista</a>
+    <a href="{% url 'task_list' %}">Voltar</a>
+    </div> <!-- Fecha o contêiner -->
 </body>
 </html>

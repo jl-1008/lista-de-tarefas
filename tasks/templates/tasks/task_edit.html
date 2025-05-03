@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Inclui CSS -->
 </head>
 <body>
+    <div class="container">  <!-- Contêiner centralizado -->
     <h1>Editar Tarefa</h1> <!-- Título -->
     <form method="post"> <!-- Formulário para editar tarefa -->
         {% csrf_token %}
         {{ form.as_p }} <!-- Renderiza campos: title, description, due_date, completed -->
         <button type="submit">Salvar</button> <!-- Botão de envio -->
     </form>
-    <a href="{% url 'task_list' %}">Voltar para a lista</a> <!-- Link para lista -->
+    <a href="{% url 'task_list' %}">Voltar</a> <!-- Link para lista -->
+    </div> <!-- Fecha o contêiner -->
 </body>
 </html>
