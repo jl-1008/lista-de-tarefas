@@ -1,5 +1,5 @@
 db.sqlite3 
 __pycache__/
-
+venv/
 # ignora o banco de dados local.
 # ignora as pastas de arquivos compilados do python.
