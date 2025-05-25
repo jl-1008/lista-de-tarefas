@@ -15,10 +15,10 @@ def register(request):
              form.save()  # Salva usuário (senha já criptografada no forms.py)
         return redirect('login')  # Redireciona para login
     # Se  inválido, passa o formulário com erros
-        return render(request, 'register.html', {'form': form})  # Renderiza template   
+        return render(request, 'tasks/register.html', {'form': form})  # Renderiza template   
     else:  # Método GET
         form = UserRegistrationForm()  # Cria formulário vazio
-    return render(request, 'register.html', {'form': form})  # Renderiza template
+    return render(request, 'tasks/register.html', {'form': form})  # Renderiza template
 
 # View para login de usuários
 def user_login(request):
@@ -32,10 +32,10 @@ def user_login(request):
                 login(request, user)
                 return redirect('task_list')  # Redireciona para a lista de tarefas
         # Se o login falhar, passa a mensagem de erro
-        return render(request, 'login.html', {'form': form, 'error': 'Usuário ou senha inválidos.'})
+        return render(request, 'tasks/login.html', {'form': form, 'error': 'Usuário ou senha inválidos.'})
     else:
         form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'tasks/login.html', {'form': form})
 
 # View para logout
 def user_logout(request):
