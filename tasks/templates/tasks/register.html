@@ -7,12 +7,18 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Inclui o arquivo CSS -->
 </head>
 <body>
-    <h1>Criar Conta</h1> <!-- Título da página -->
-    <form method="post"> <!-- Formulário para registrar um novo usuário -->
-        {% csrf_token %} <!-- Token CSRF para segurança -->
-        {{ form.as_p }} <!-- Renderiza o formulário de registro -->
-        <button type="submit">Registrar</button> <!-- Botão para enviar o formulário -->
-    </form>
-    <a href="{% url 'login' %}">Já tem conta? Faça login</a> <!-- Link para a página de login -->
+    <div class="container"> <!-- Contêiner para centralizar -->
+        <h1>Criar Conta</h1> <!-- Título da página -->
+        <form method="post"> <!-- Formulário para registrar um novo usuário -->
+            {% csrf_token %} <!-- Token CSRF para segurança -->
+            {{ form.as_p }} <!-- Renderiza o formulário de registro -->
+            {% if form.errors %}
+                <p style="color: red;">Por favor, corrija os erros abaixo:</p>
+                {{ form.errors }}
+            {% endif %}
+            <button type="submit" class="btn">Registrar</button> <!-- Botão estilizado -->
+        </form>
+        <p>Já tem conta? <a href="{% url 'login' %}" class="btn">Faça login</a></p> <!-- Link estilizado -->
+    </div>
 </body>
 </html>

@@ -14,12 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin 
-from django.urls import path, include # Include conecta URLs de outros apps
-
+from django.urls import path, include
+from django.contrib import admin
+from tasks.views import user_login, register, user_logout  # Importa as views personalizadas
 
 # Rotas principais do projeto
 urlpatterns = [
+    path('', user_login, name='home'), # Rota raiz vai para o login
     path('admin/', admin.site.urls), # Rota para o admin
-    path('', include('tasks.urls')), # Raiz vai para o app tasks    
+    path('tasks/', include('tasks.urls')),  # Inclui as rotas do app tasks
+    path('login/', user_login, name='login'), # Rota para login
+    path('logout/', user_logout, name='logout'), # Rota para logout
+    path('register/', register, name='register'), # Rota para registro
 ]

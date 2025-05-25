@@ -2,7 +2,7 @@
 # Importações necessárias para views, modelos, formulários e autenticação
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Task
 from .forms import TaskForm, UserRegistrationForm
@@ -12,28 +12,35 @@ def register(request):
     if request.method == 'POST':  # Se o formulário foi enviado
         form = UserRegistrationForm(request.POST)  # Cria formulário com dados
         if form.is_valid():  # Verifica se é válido
-            user = form.save()  # Salva usuário (senha já criptografada no forms.py)
-            return redirect('login')  # Redireciona para login
+             form.save()  # Salva usuário (senha já criptografada no forms.py)
+        return redirect('login')  # Redireciona para login
+    # Se  inválido, passa o formulário com erros
+        return render(request, 'register.html', {'form': form})  # Renderiza template   
     else:  # Método GET
         form = UserRegistrationForm()  # Cria formulário vazio
-    return render(request, 'tasks/register.html', {'form': form})  # Renderiza template
+    return render(request, 'register.html', {'form': form})  # Renderiza template
 
 # View para login de usuários
 def user_login(request):
-    if request.method == 'POST':  # Se o formulário foi enviado
-        form = AuthenticationForm(request, data=request.POST)  # Cria formulário com dados
-        if form.is_valid():  # Verifica se é válido
-            user = form.get_user()  # Obtém usuário autenticado
-            login(request, user)  # Faz login
-            return redirect('task_list')  # Redireciona para lista de tarefas
-    else:  # Método GET
-        form = AuthenticationForm()  # Cria formulário vazio
-    return render(request, 'tasks/login.html', {'form': form})  # Renderiza template
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('task_list')  # Redireciona para a lista de tarefas
+        # Se o login falhar, passa a mensagem de erro
+        return render(request, 'login.html', {'form': form, 'error': 'Usuário ou senha inválidos.'})
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
 
 # View para logout
 def user_logout(request):
     logout(request)  # Encerra sessão do usuário
-    return redirect('task_list')  # Redireciona para lista de tarefas
+    return redirect('login')  # Redireciona para lista de tarefas
 
 # View para listar tarefas com filtro
 @login_required  # Requer login

@@ -12,9 +12,12 @@
         <form method="post">  <!-- Formulário de login -->
             {% csrf_token %}  <!-- Token de segurança -->
             {{ form.as_p }}  <!-- Renderiza campos: username, password -->
-            <button type="submit">Entrar</button>  <!-- Botão de envio -->
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>  <!-- Mensagem de erro -->
+            {% endif %}
+            <button type="submit" class="btn">Entrar</button>  <!-- Botão estilizado -->
         </form>
-        <p><a href="{% url 'register' %}">Não tem conta? Registre-se</a></p>  <!-- Link para registro -->
+        <p>Não tem conta? <a href="{% url 'register' %}" class="btn">Registre-se</a></p>  <!-- Link estilizado -->
     </div>
 </body>
 </html>
